@@ -10,7 +10,7 @@ public class homework_1 {
         System.out.println("Hello world");
 
         ClassPathXmlApplicationContext context =
-                new ClassPathXmlApplicationContext("spring-context.xml");
+                new ClassPathXmlApplicationContext("/spring-context.xml");
 
         ExaminerService examinerService = context.getBean(ExaminerServiceImpl.class);
         examinerService.runTest();
