@@ -5,10 +5,8 @@ import otus.spring.service.ExaminerService;
 import otus.spring.service.ExaminerServiceImpl;
 
 
-public class homework_1 {
+public class Homework01 {
     public static void main(String[] args) {
-        System.out.println("Hello world");
-
         ClassPathXmlApplicationContext context =
                 new ClassPathXmlApplicationContext("/spring-context.xml");
 

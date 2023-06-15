@@ -1,3 +1,3 @@
-number;questionText;answers;rightNumbers;
-1;Какой класс является суперклассом для всех классов?;MainClass,Super,Class,Object;4;
-2;К языкам со статической типизацией относятся:;C,Java,Python;1,2;
+NUMBER,QUESTIONTEXT,ANSWERS
+1,"Какой класс является суперклассом для всех классов?","1|MainClass|false;2|Super|false;3|Class|false;4|Object|true"
+2,"К языкам со статической типизацией относятся:","1|C, C++|true;2|Java|true;3|Python|false"

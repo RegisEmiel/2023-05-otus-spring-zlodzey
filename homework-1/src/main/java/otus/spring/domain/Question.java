@@ -1,13 +1,11 @@
 package otus.spring.domain;
 
-import com.opencsv.bean.CsvBindAndSplitByName;
-import com.opencsv.bean.CsvBindByName;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import otus.spring.dto.QuestionDTO;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -15,38 +13,26 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Question {
-    @CsvBindByName(required = true)
     private int number;
-
-    @CsvBindByName(required = true)
     private String questionText;
+    private List<Answer> answers;
 
-    @CsvBindAndSplitByName(elementType = String.class, collectionType = ArrayList.class, splitOn = "\\,", required = true)
-    private List<String> answers;
+    public Question(QuestionDTO questionDTO) {
+        this.number = questionDTO.getNumber();
+        this.questionText = questionDTO.getQuestionText();
+        this.answers = questionDTO.getAnswers();
+    }
 
-    @CsvBindAndSplitByName(elementType = Integer.class, collectionType = ArrayList.class, splitOn = "\\,", required = true)
-    private  List<Integer> rightNumbers;
+    public String getStringRepresentation(boolean showCorrectAnswer) {
 
-    @Override
-    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder("Вопрос №");
+        stringBuilder.append(number);
+        stringBuilder.append(System.lineSeparator());
+        stringBuilder.append(questionText);
+        stringBuilder.append(System.lineSeparator());
 
-        StringBuilder sb = new StringBuilder("Вопрос №");
-        sb.append(number);
-        sb.append(System.lineSeparator());
-        sb.append(questionText);
-        sb.append(System.lineSeparator());
+        answers.stream().map(a -> a.getStringRepresentation(showCorrectAnswer)).forEach(stringBuilder::append);
 
-        int answerNumber = 0;
-        for (String answer: answers) {
-            sb.append(++answerNumber).append(". ");
-            sb.append(answer);
-
-            if (rightNumbers.contains(answerNumber))
-                sb.append("\t*");
-
-            sb.append(System.lineSeparator());
-        }
-
-        return  sb.toString();
+        return  stringBuilder.toString();
     }
 }

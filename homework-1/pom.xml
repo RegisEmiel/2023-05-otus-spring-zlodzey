@@ -38,7 +38,7 @@
                         <configuration>
                             <archive>
                                 <manifest>
-                                    <mainClass>otus.spring.homework_1</mainClass>
+                                    <mainClass>otus.spring.Homework01</mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>

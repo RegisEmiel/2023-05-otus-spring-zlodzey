@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import otus.spring.domain.Question;
+import otus.spring.dto.QuestionDTO;
+import otus.spring.dto.QuestionDTOListConverter;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,6 +15,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Setter
 @Getter
@@ -26,16 +29,24 @@ public class QuestionRepositoryImpl implements QuestionRepository {
 
     @Override
     public List<Question> getAll() {
+        List<QuestionDTO> questionDTOList = getQuestions();
+
+        List<Question> questions = QuestionDTOListConverter.convert(questionDTOList);
+
+        return questions;
+    }
+
+    private List<QuestionDTO> getQuestions() {
         InputStream inputStream = Objects.requireNonNull(
                 this.getClass().getResourceAsStream(fileName), "Файл не найден!");
 
-        List<Question> questions = null;
+        List<QuestionDTO> questions = null;
 
         try (Reader reader = new InputStreamReader(inputStream)) {
 
-            questions = new CsvToBeanBuilder<Question>(reader)
+            questions = new CsvToBeanBuilder<QuestionDTO>(reader)
                     .withSeparator(separator)
-                    .withType(Question.class)
+                    .withType(QuestionDTO.class)
                     .build()
                     .parse();
 
