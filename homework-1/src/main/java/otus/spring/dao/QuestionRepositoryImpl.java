@@ -9,13 +9,10 @@ import otus.spring.domain.Question;
 import otus.spring.dto.QuestionDTO;
 import otus.spring.dto.QuestionDTOListConverter;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Setter
 @Getter
@@ -24,35 +21,42 @@ import java.util.stream.Collectors;
 public class QuestionRepositoryImpl implements QuestionRepository {
 
     private String fileName;
+
     private char separator;
 
 
     @Override
     public List<Question> getAll() {
-        List<QuestionDTO> questionDTOList = getQuestions();
+        List<QuestionDTO> questionDTOList = getQuestionsFromFile();
 
         List<Question> questions = QuestionDTOListConverter.convert(questionDTOList);
 
         return questions;
     }
 
-    private List<QuestionDTO> getQuestions() {
-        InputStream inputStream = Objects.requireNonNull(
-                this.getClass().getResourceAsStream(fileName), "Файл не найден!");
+    private Reader getFileReader(String fileName) {
+        InputStream inputStream = getClass().getResourceAsStream(fileName);
+
+        if (inputStream == null) {
+            throw new IllegalArgumentException("File not found: " + fileName);
+        }
+
+        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+
+        return inputStreamReader;
+    }
+
+    private List<QuestionDTO> getQuestionsFromFile() {
+
+        Reader reader = getFileReader(fileName);
 
         List<QuestionDTO> questions = null;
 
-        try (Reader reader = new InputStreamReader(inputStream)) {
-
-            questions = new CsvToBeanBuilder<QuestionDTO>(reader)
-                    .withSeparator(separator)
-                    .withType(QuestionDTO.class)
-                    .build()
-                    .parse();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        questions = new CsvToBeanBuilder<QuestionDTO>(reader)
+                .withSeparator(separator)
+                .withType(QuestionDTO.class)
+                .build()
+                .parse();
 
         return questions;
     }

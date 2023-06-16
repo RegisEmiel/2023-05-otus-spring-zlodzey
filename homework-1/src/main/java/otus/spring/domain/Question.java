@@ -14,7 +14,9 @@ import java.util.List;
 @AllArgsConstructor
 public class Question {
     private int number;
+
     private String questionText;
+
     private List<Answer> answers;
 
     public Question(QuestionDTO questionDTO) {

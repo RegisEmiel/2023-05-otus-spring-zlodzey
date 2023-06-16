@@ -14,12 +14,14 @@ import java.util.List;
 public class ExaminerServiceImpl implements ExaminerService {
     private final QuestionRepository questionRepository;
 
-    private boolean fShowAnswer;
+    private final QuestionOutputService questionOutputService;
+
+    private final boolean fShowAnswer;
 
     @Override
     public void runTest() {
         List<Question> questions = questionRepository.getAll();
 
-        questions.stream().map(q -> q.getStringRepresentation(fShowAnswer)).forEach(System.out::println);
+        questions.stream().map(q -> q.getStringRepresentation(fShowAnswer)).forEach(questionOutputService::outQuestion);
     }
 }

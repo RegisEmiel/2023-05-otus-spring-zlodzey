@@ -11,15 +11,18 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Answer {
     private int index;
+
     private String answerText;
+
     private boolean correct;
 
 
     public String getStringRepresentation(boolean showCorrectAnswer) {
         StringBuilder stringBuilder = new StringBuilder();
 
-        if (showCorrectAnswer)
+        if (showCorrectAnswer) {
             stringBuilder.append(correct ? "* \t" : "\t");
+        }
 
         stringBuilder.append(String.format("%s.%s", index, answerText))
                 .append(System.lineSeparator());

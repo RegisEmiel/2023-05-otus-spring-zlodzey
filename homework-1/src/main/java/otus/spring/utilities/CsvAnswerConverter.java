@@ -14,10 +14,15 @@ public class CsvAnswerConverter extends AbstractCsvConverter {
 
     @Override
     public Object convertToRead(String s) throws CsvDataTypeMismatchException, CsvConstraintViolationException {
+        if (s.isEmpty()) {
+            throw new IllegalArgumentException("Answer is empty!");
+        }
+
         String[] split = s.split("\\|");
         int i = Integer.parseInt (split[0]);
         boolean isCorrect = Boolean.parseBoolean(split[2]);
         Answer answer = new Answer(i, split[1], isCorrect);
+
         return answer;
     }
 }
