@@ -9,11 +9,11 @@ import java.io.PrintStream;
 @Setter
 @Getter
 @NoArgsConstructor
-public class QuestionConsoleOutputService implements QuestionOutputService {
+public class ConsoleOutputServiceImpl implements ConsoleOutputService {
     private final PrintStream printStream = System.out;
 
     @Override
-    public void outQuestion(String st) {
+    public void outputString(String st) {
         printStream.println(st);
     }
 }

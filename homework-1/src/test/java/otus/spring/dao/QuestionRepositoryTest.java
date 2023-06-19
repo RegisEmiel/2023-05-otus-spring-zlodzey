@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DisplayName("Тесты доступа к репозиторию вопросов")
 class QuestionRepositoryTest {
-    static private int QUESTION_COUNT = 2;
+    private static final int QUESTION_COUNT = 2;
 
     @Test
     @DisplayName("Проверка исключения при несуществующем имени файла с вопросами")

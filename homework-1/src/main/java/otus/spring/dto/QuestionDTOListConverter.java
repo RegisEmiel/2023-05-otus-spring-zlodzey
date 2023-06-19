@@ -5,9 +5,20 @@ import otus.spring.domain.Question;
 import java.util.List;
 
 public class QuestionDTOListConverter {
-    static public List<Question> convert(List<QuestionDTO> questionDTOList) {
+
+    public static Question convertToQuestion(QuestionDTO questionDTO) {
+        Question question = new Question(
+                questionDTO.getNumber(),
+                questionDTO.getQuestionText(),
+                questionDTO.getAnswers()
+        );
+
+        return question;
+    }
+
+    public static List<Question> convert(List<QuestionDTO> questionDTOList) {
         List<Question> questions = questionDTOList.stream()
-                .map(Question::new)
+                .map(QuestionDTOListConverter::convertToQuestion)
                 .toList();
 
         return questions;

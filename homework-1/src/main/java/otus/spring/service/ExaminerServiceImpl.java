@@ -1,27 +1,32 @@
 package otus.spring.service;
 
+import lombok.RequiredArgsConstructor;
 import otus.spring.dao.QuestionRepository;
 import otus.spring.domain.Question;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import otus.spring.utilities.QuestionToStringConverter;
 
 import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ExaminerServiceImpl implements ExaminerService {
     private final QuestionRepository questionRepository;
 
-    private final QuestionOutputService questionOutputService;
+    private final ConsoleOutputService consoleOutputService;
 
     private final boolean fShowAnswer;
+
+    private final QuestionToStringConverter questionToStringConverter = new QuestionToStringConverter();
 
     @Override
     public void runTest() {
         List<Question> questions = questionRepository.getAll();
 
-        questions.stream().map(q -> q.getStringRepresentation(fShowAnswer)).forEach(questionOutputService::outQuestion);
+        questions.stream()
+                .map(q -> questionToStringConverter.questionToString(q, fShowAnswer))
+                .forEach(consoleOutputService::outputString);
     }
 }

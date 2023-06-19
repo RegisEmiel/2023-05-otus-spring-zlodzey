@@ -1,28 +1,27 @@
 package otus.spring.dao;
 
 import com.opencsv.bean.CsvToBeanBuilder;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import otus.spring.domain.Question;
 import otus.spring.dto.QuestionDTO;
 import otus.spring.dto.QuestionDTOListConverter;
 
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.RequiredArgsConstructor;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.List;
 
 @Setter
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class QuestionRepositoryImpl implements QuestionRepository {
 
-    private String fileName;
+    private final String fileName;
 
-    private char separator;
+    private final char separator;
 
 
     @Override
@@ -34,7 +33,8 @@ public class QuestionRepositoryImpl implements QuestionRepository {
         return questions;
     }
 
-    private Reader getFileReader(String fileName) {
+    private List<QuestionDTO> getQuestionsFromFile() {
+
         InputStream inputStream = getClass().getResourceAsStream(fileName);
 
         if (inputStream == null) {
@@ -43,16 +43,9 @@ public class QuestionRepositoryImpl implements QuestionRepository {
 
         InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
 
-        return inputStreamReader;
-    }
-
-    private List<QuestionDTO> getQuestionsFromFile() {
-
-        Reader reader = getFileReader(fileName);
-
         List<QuestionDTO> questions = null;
 
-        questions = new CsvToBeanBuilder<QuestionDTO>(reader)
+        questions = new CsvToBeanBuilder<QuestionDTO>(inputStreamReader)
                 .withSeparator(separator)
                 .withType(QuestionDTO.class)
                 .build()
