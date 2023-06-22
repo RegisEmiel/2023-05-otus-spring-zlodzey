@@ -17,7 +17,7 @@ class QuestionRepositoryTest {
     void wrongFileNameExceptionText() {
         QuestionRepository questionRepository = new QuestionRepositoryImpl("/wrong.csv", ',');
 
-        assertThrows(IllegalArgumentException.class, questionRepository::getAll);
+        assertThrows(NullPointerException.class, questionRepository::getAll);
     }
 
     @Test

@@ -9,12 +9,16 @@
         <constructor-arg index="1" value=","/>
     </bean>
 
-    <bean id="consoleOutputServiceImpl" class="otus.spring.service.ConsoleOutputServiceImpl">
+    <bean id="consoleOutputService" class="otus.spring.service.ConsoleOutputService">
+    </bean>
+
+    <bean id="questionToStringConverter" class="otus.spring.service.QuestionToStringConverter">
     </bean>
 
     <bean id="examinerServiceImpl" class="otus.spring.service.ExaminerServiceImpl">
         <constructor-arg name="questionRepository" ref="questionRepositoryImpl"/>
-        <constructor-arg name="consoleOutputService" ref="consoleOutputServiceImpl"/>
+        <constructor-arg name="outputService" ref="consoleOutputService"/>
+        <constructor-arg name="questionToStringConverter" ref="questionToStringConverter"/>
         <constructor-arg name="fShowAnswer" value="true"/>
     </bean>
 </beans>

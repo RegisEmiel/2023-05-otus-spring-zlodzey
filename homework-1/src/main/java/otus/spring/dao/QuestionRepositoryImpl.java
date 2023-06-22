@@ -10,9 +10,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.RequiredArgsConstructor;
 
-import java.io.InputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.Objects;
 
 @Setter
 @Getter
@@ -34,22 +35,21 @@ public class QuestionRepositoryImpl implements QuestionRepository {
     }
 
     private List<QuestionDTO> getQuestionsFromFile() {
-
-        InputStream inputStream = getClass().getResourceAsStream(fileName);
-
-        if (inputStream == null) {
-            throw new IllegalArgumentException("File not found: " + fileName);
-        }
-
-        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-
         List<QuestionDTO> questions = null;
 
-        questions = new CsvToBeanBuilder<QuestionDTO>(inputStreamReader)
-                .withSeparator(separator)
-                .withType(QuestionDTO.class)
-                .build()
-                .parse();
+
+        try(InputStreamReader inputStreamReader = new InputStreamReader(Objects
+                .requireNonNull(getClass()
+                        .getResourceAsStream(fileName), "File not found: " + fileName))) {
+
+            questions = new CsvToBeanBuilder<QuestionDTO>(inputStreamReader)
+                    .withSeparator(separator)
+                    .withType(QuestionDTO.class)
+                    .build()
+                    .parse();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         return questions;
     }

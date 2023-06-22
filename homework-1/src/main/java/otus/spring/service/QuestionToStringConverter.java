@@ -1,4 +1,4 @@
-package otus.spring.utilities;
+package otus.spring.service;
 
 import otus.spring.domain.Answer;
 import otus.spring.domain.Question;

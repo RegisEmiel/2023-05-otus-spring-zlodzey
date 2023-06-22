@@ -1,19 +1,12 @@
 package otus.spring.utilities;
 
 import com.opencsv.bean.AbstractCsvConverter;
-import com.opencsv.exceptions.CsvConstraintViolationException;
-import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import otus.spring.domain.Answer;
 
 public class CsvAnswerConverter extends AbstractCsvConverter {
-    @Override
-    public String convertToWrite(Object value) throws CsvDataTypeMismatchException {
-        Answer answer = (Answer) value;
-        return String.format("%s.%s.%s", answer.getIndex(), answer.getAnswerText(), answer.isCorrect());
-    }
 
     @Override
-    public Object convertToRead(String s) throws CsvDataTypeMismatchException, CsvConstraintViolationException {
+    public Object convertToRead(String s) {
         if (s.isEmpty()) {
             throw new IllegalArgumentException("Answer is empty!");
         }

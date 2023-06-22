@@ -5,7 +5,6 @@ import otus.spring.dao.QuestionRepository;
 import otus.spring.domain.Question;
 import lombok.Getter;
 import lombok.Setter;
-import otus.spring.utilities.QuestionToStringConverter;
 
 import java.util.List;
 
@@ -15,11 +14,12 @@ import java.util.List;
 public class ExaminerServiceImpl implements ExaminerService {
     private final QuestionRepository questionRepository;
 
-    private final ConsoleOutputService consoleOutputService;
+    private final OutputService outputService;
+
+    private final QuestionToStringConverter questionToStringConverter;
 
     private final boolean fShowAnswer;
 
-    private final QuestionToStringConverter questionToStringConverter = new QuestionToStringConverter();
 
     @Override
     public void runTest() {
@@ -27,6 +27,6 @@ public class ExaminerServiceImpl implements ExaminerService {
 
         questions.stream()
                 .map(q -> questionToStringConverter.questionToString(q, fShowAnswer))
-                .forEach(consoleOutputService::outputString);
+                .forEach(outputService::outputString);
     }
 }
