@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="questionRepositoryImpl" class="otus.spring.dao.QuestionRepositoryImpl">
+        <constructor-arg index="0" value="/questionlist.csv"/>
+        <constructor-arg index="1" value=","/>
+    </bean>
+
+    <bean id="consoleOutputService" class="otus.spring.service.ConsoleOutputService">
+    </bean>
+
+    <bean id="questionToStringConverter" class="otus.spring.service.QuestionToStringConverter">
+    </bean>
+
+    <bean id="examinerServiceImpl" class="otus.spring.service.ExaminerServiceImpl">
+        <constructor-arg name="questionRepository" ref="questionRepositoryImpl"/>
+        <constructor-arg name="outputService" ref="consoleOutputService"/>
+        <constructor-arg name="questionToStringConverter" ref="questionToStringConverter"/>
+        <constructor-arg name="fShowAnswer" value="true"/>
+    </bean>
+</beans>
